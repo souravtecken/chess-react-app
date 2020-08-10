@@ -71,9 +71,7 @@ export default class Board extends Component {
 			"R",
 		],
 	};
-	clicked = () => {
-		alert("Clicked");
-	};
+	clicked = () => {};
 	renderSquare = (piece, colour, i, j) => {
 		return (
 			<Square

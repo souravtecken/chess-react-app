@@ -1,0 +1,19 @@
+.Square {
+	width: 75px;
+	height: 75px;
+	margin: 1.2px;
+}
+
+.Black {
+	background-color: gray;
+}
+
+.White {
+	background-color: azure;
+}
+
+.Square:active {
+	outline-style: solid;
+	outline-width: 2px;
+	outline-color: black;
+}

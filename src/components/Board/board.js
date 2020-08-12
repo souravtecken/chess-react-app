@@ -70,12 +70,36 @@ export default class Board extends Component {
 			"N",
 			"R",
 		],
+		selected: false,
+		selectedPiece: " ",
+		selectedPosition: [],
 	};
-	clicked = () => {};
+	clicked = (i, j) => {
+		if (this.state.selected === false) {
+			this.setState({
+				selected: true,
+				selectedPiece: this.state.board[8 * i + j],
+				selectedPosition: [i, j],
+			});
+		} else {
+			let newBoard = [...this.state.board];
+			newBoard[
+				this.state.selectedPosition[0] * 8 +
+					this.state.selectedPosition[1]
+			] = " ";
+			newBoard[8 * i + j] = this.state.selectedPiece;
+			this.setState({
+				selected: false,
+				selectedPiece: " ",
+				selectedPosition: [],
+				board: newBoard,
+			});
+		}
+	};
 	renderSquare = (piece, colour, i, j) => {
 		return (
 			<Square
-				clicked={this.clicked}
+				clicked={() => this.clicked(i, j)}
 				piece={piece}
 				colour={colour}
 				key={i * 8 + j}

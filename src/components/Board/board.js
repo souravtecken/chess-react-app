@@ -73,8 +73,19 @@ export default class Board extends Component {
 		selected: false,
 		selectedPiece: " ",
 		selectedPosition: [],
+		moves: [],
 	};
 	clicked = (i, j) => {
+		if (
+			i === this.state.selectedPosition[0] &&
+			j === this.state.selectedPosition[1]
+		) {
+			this.setState({
+				selected: false,
+				selectedPiece: " ",
+				selectedPosition: [],
+			});
+		}
 		if (this.state.selected === false) {
 			this.setState({
 				selected: true,
@@ -88,11 +99,18 @@ export default class Board extends Component {
 					this.state.selectedPosition[1]
 			] = " ";
 			newBoard[8 * i + j] = this.state.selectedPiece;
+			const newMoves = [...this.state.moves];
+			newMoves.push(
+				`${this.state.selectedPiece}${String.fromCharCode(97 + j)}${
+					8 - i
+				} `,
+			);
 			this.setState({
 				selected: false,
 				selectedPiece: " ",
 				selectedPosition: [],
 				board: newBoard,
+				moves: newMoves,
 			});
 		}
 	};
@@ -106,7 +124,19 @@ export default class Board extends Component {
 			/>
 		);
 	};
-
+	renderMoves = () => {
+		const rendered = [];
+		for (let i = 0; i < this.state.moves.length; i += 2) {
+			rendered.push(
+				<h3>
+					{i / 2 + 1}: {this.state.moves[i]} {this.state.moves[i + 1]}
+				</h3>,
+			);
+		}
+		return rendered.map((idx) => {
+			return <div>{idx}</div>;
+		});
+	};
 	render() {
 		const isEven = (i) => !(i % 2);
 		const board = [];
@@ -123,6 +153,12 @@ export default class Board extends Component {
 			}
 			board.push(<div key={64 * i}>{rows}</div>);
 		}
-		return <Fragment>{board}</Fragment>;
+		return (
+			<Fragment>
+				{board}
+				<h1>Moves:</h1>
+				{this.renderMoves()}
+			</Fragment>
+		);
 	}
 }
